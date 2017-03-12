@@ -25,7 +25,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
       stf && \
     sed -i'' 's@http://archive.ubuntu.com/ubuntu/@mirror://mirrors.ubuntu.com/mirrors.txt@' /etc/apt/sources.list && \
     apt-get update && \
-    apt-get -y install wget python build-essential curl iputils-ping && \
+    apt-get -y install wget python build-essential curl iputils-ping netcat && \
     cd /tmp && \
     wget --progress=dot:mega \
       https://nodejs.org/dist/v6.9.5/node-v6.9.5-linux-x64.tar.xz && \
