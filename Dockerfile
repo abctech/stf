@@ -25,7 +25,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
       stf && \
     sed -i'' 's@http://archive.ubuntu.com/ubuntu/@mirror://mirrors.ubuntu.com/mirrors.txt@' /etc/apt/sources.list && \
     apt-get update && \
-    apt-get -y install wget python build-essential curl iputils-ping netcat && \
+    apt-get -y --no-install-recommends \
+    install wget python build-essential curl iputils-ping netcat ca-certificates && \
     cd /tmp && \
     wget --progress=dot:mega \
       https://nodejs.org/dist/v6.9.5/node-v6.9.5-linux-x64.tar.xz && \
@@ -35,6 +36,15 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get -y install libzmq3-dev libprotobuf-dev git graphicsmagick yasm && \
     apt-get clean && \
     rm -rf /var/cache/apt/* /var/lib/apt/lists/*
+
+RUN gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4
+RUN curl -o /usr/local/bin/gosu -SL "https://github.com/tianon/gosu/releases/download/1.4/gosu-$(dpkg --print-architecture)" \
+    && curl -o /usr/local/bin/gosu.asc -SL "https://github.com/tianon/gosu/releases/download/1.4/gosu-$(dpkg --print-architecture).asc" \
+    && gpg --verify /usr/local/bin/gosu.asc \
+    && rm /usr/local/bin/gosu.asc \
+    && chmod +x /usr/local/bin/gosu
+
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
 # Copy app source.
 COPY . /tmp/build/
@@ -63,6 +73,8 @@ RUN set -x && \
 
 # Switch to the app user.
 USER stf
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
 # Show help by default.
 CMD stf --help
