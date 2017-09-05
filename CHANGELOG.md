@@ -4,12 +4,32 @@
 
 ### Enhancements
 
+- The network column in the device list is now based on a value that gets updated in real time. The format of the column has changed slightly due to this change.
+
+## 3.1.0 (2017-08-31)
+
+### Enhancements
+
+- Android 8.0 is now supported. Please note that Android O developer previews are no longer officially supported, though they may or may not still work.
+
+## 3.0.1 (2017-08-21)
+
+### Fixes
+
+- Updated [adbkit](https://github.com/openstf/adbkit) to fix `RangeError: Index out of range` errors when parsing newer APKs that use UTF-8 encoding for their string pools.
+
+## 3.0.0 (2017-08-09)
+
+### Enhancements
+
+- Added support for Android O Developer Preview 1 (note that any later previews are not supported yet)
 - You can now set screen JPEG quality with the `SCREEN_JPEG_QUALITY` environment variable at launch time. Can be useful for slow networks.
 - Switched to [yargs](http://yargs.js.org) for option parsing to make it easier to modify the CLI.
 - Almost all command line options can now be specified with environment variables.
 - Internal commands are now hidden from help output but can still be used.
 - Running the `stf` binary without a command now errors and shows help output (previously there was no output whatsoever).
 - Improved help messages for various options.
+- Added an app switch key. Thanks @koral--!
 
 ### Fixes
 
@@ -18,6 +38,9 @@
 - Updated [adbkit-apkreader](https://github.com/openstf/adbkit-apkreader) to resolve issues with certain APK files that were unparseable and therefore failed installation. We've only seen a single a single APK with this issue, but there could be more.
 - Updated [adbkit-apkreader](https://github.com/openstf/adbkit-apkreader) to resolve another unrelated parsing issue with slightly malformed manifest files.
 - Updated [adbkit](https://github.com/openstf/adbkit) to resolve an issue where trailing spaces in an adb public key would cause an error during adb connect.
+- Updated [adbkit](https://github.com/openstf/adbkit) to resolve issues with log parsing on Android 7.0 and later, caused by Android no longer transforming `\n` to `\r\n`.
+- Updated [adbkit](https://github.com/openstf/adbkit) to resolve an issue with recent versions of ADB that include a null byte in `adbkey.pub`, which was causing validation to fail.
+- Fixed [minitouch](https://github.com/openstf/minitouch) on Blackberry PRIV.
 
 ### Misc
 
